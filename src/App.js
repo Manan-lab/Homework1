@@ -2,6 +2,26 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
+
+function Hello(){
+  let name = 'World'
+  return(
+    <div>
+       <h1>Hello {name}</h1>
+       <p>I'm a new Programmer</p>
+       <p>Nice to meet you, ``)</p>
+    </div>
+  );
+}
+ function Person(props){
+   return(
+     <p>I am {props.age}</p>
+   )
+
+ }
+
+
 function App() {
   return (
     <div className="App">
@@ -10,6 +30,8 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        <Hello/>
+        <Person age = '25' /> 
         <a
           className="App-link"
           href="https://reactjs.org"
