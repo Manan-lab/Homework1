@@ -1,20 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+// import './App.css';
 import Product from './demo/Components/Product'
+import Input from './demo/Components/Input'
 
 
 
 function Productlist() {
 
-  return(
+  return (
     <div>
+      <Input />
       <Product
-      name = 'banana'
-      price = '1$'
-      description = 'Fresh bananas from Equador'
+        name='banana'
+        price='1$'
+        description='Fresh bananas from Equador'
       />
+
+      <Product
+        name="oranges"
+        price="2$"
+        description="Fresh oranges from Europ"
+      />
+
     </div>
+
   );
 }
 
