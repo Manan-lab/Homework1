@@ -47,7 +47,7 @@ class Task extends PureComponent {
                     </Card.Text>
                     <Button 
                     className = 'm-1'
-                    variant="info"
+                    variant="primary"
                     onClick={onEdit}
                     disabled = {disabled}
                     >
