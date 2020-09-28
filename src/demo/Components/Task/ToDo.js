@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import idGenerator from '../helpers/idGenerator';
 import NewTask from './NewTask';
 import Task from './Task';
 import Confirm from './Confirm';
@@ -17,23 +16,38 @@ class ToDo extends Component {
     addTask = (inputValue) => {
         const tasks = [...this.state.tasks];
 
-        const newTask = {
-            id: idGenerator(),
-            text: inputValue
+        const data = {
+            title:inputValue
         };
 
-        tasks.unshift(newTask)
 
-        this.setState({
-            tasks
-        });
+        fetch('http://localhost:3001/task',{
+            method: 'POST',
+            body:JSON.stringify(data),
+            headers:{
+                "Content-Type":'application/json'
+            }
+        })
+        .then((response)=>response.json())
+        .then((task)=>{
+            if(task.error){
+                throw task.error;
+            }
+            this.setState({
+                tasks:[task,...this.state.tasks]
+            })
+        })
+        .catch((err)=>{
+            console.log('err',err)
+        })
 
+       
     };
 
 
     removeTask = (taskId) => () => {
 
-        const newTasks = this.state.tasks.filter(task => task.id !== taskId);
+        const newTasks = this.state.tasks.filter(task => task._id !== taskId);
         this.setState({
             tasks: newTasks
         });
@@ -59,7 +73,7 @@ class ToDo extends Component {
         let tasks = [...this.state.tasks];
 
         checkedTasks.forEach(taskId => {
-            tasks = tasks.filter(task => task.id !== taskId);
+            tasks = tasks.filter(task => task._id !== taskId);
         });
 
         checkedTasks.clear();
@@ -81,7 +95,7 @@ class ToDo extends Component {
 
         const tasks = [...this.state.tasks]
 
-        const taskIndex = tasks.findIndex(task => task.id === taskId)
+        const taskIndex = tasks.findIndex(task => task._id === taskId)
 
         tasks[taskIndex] = {
             ...tasks[taskIndex],
@@ -98,7 +112,7 @@ class ToDo extends Component {
         const { checkedTasks, tasks, showConfirm, editTask } = this.state
 
         const tasksComponents = tasks.map((task) =>
-            <Col key={task.id}>
+            <Col key={task._id}>
                 <Task
                     data={task}
                     onRemove={this.removeTask}
