@@ -70,10 +70,9 @@ render(){
 }
 
 TaskModal.propTypes = {
-    value: PropTypes.object.isRequired,
-    onSave: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
-
+value: PropTypes.object.isRequired,
+onSave: PropTypes.func.isRequired,
+onCancel: PropTypes.func.isRequired,
 };
 
-export default TaskModal;
+  export default TaskModal;

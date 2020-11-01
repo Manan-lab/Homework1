@@ -24,8 +24,9 @@ class Task extends PureComponent {
     }
 
     render() {
-        const { data, onRemove, onEdit, disabled } = this.props
-        const { checked } = this.state
+        const { data, onRemove, onEdit, disabled } = this.props;
+        const { checked } = this.state;
+
        const cardClasses = ['card', styles.task];
        if(checked){
         cardClasses.push(styles.checked);
@@ -35,19 +36,20 @@ class Task extends PureComponent {
             <Card 
             className={cardClasses.join(' ')}
             >
+            {/* className={`card ${styles.task} ${checked ? styles.checked : ''}`} */}
                 <input
                     type='checkbox'
                     className={styles.checkbox}
                     onClick={this.toggleCheckbox}
                 />
                 <Card.Body>
-                    <Card.Title>My Tasks</Card.Title>
+                    <Card.Title>{data.title}</Card.Title>
                     <Card.Text>
-                        {data.text}
+                        {data.description}
                     </Card.Text>
                     <Button 
                     className = 'm-1'
-                    variant="primary"
+                    variant="info"
                     onClick={onEdit}
                     disabled = {disabled}
                     >

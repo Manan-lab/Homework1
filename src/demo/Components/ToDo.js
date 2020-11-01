@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import NewTask from './NewTask';
-import Task from './Task';
+import Task from './Task/Task';
 import Confirm from './Confirm';
 import Modal from './Modal';
 
@@ -10,38 +10,59 @@ class ToDo extends Component {
         tasks: [],
         checkedTasks: new Set(),
         showConfirm: false,
-        editTask: null
+        editTask: null,
+        openNewTaskModal: false
     };
 
+    componentDidMount(){
+        fetch('http://localhost:3001/task', {
+            method: 'GET',
+            headers: {
+                "Content-Type": 'application/json',
+            }
+        })
+            .then((response) => response.json())
+            .then((tasks) => {
+                if (tasks.error) {
+                    throw tasks.error;
+                }
+
+                this.setState({
+                    tasks
+                });
+            })
+            .catch((err) => {
+                console.log('err', err);
+            });
+    }
+
     addTask = (inputValue) => {
-        const tasks = [...this.state.tasks];
 
         const data = {
-            title:inputValue
+            title: inputValue
         };
 
-
-        fetch('http://localhost:3001/task',{
+        fetch('http://localhost:3001/task', {
             method: 'POST',
-            body:JSON.stringify(data),
-            headers:{
-                "Content-Type":'application/json'
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": 'application/json',
             }
         })
-        .then((response)=>response.json())
-        .then((task)=>{
-            if(task.error){
-                throw task.error;
-            }
-            this.setState({
-                tasks:[task,...this.state.tasks]
-            })
-        })
-        .catch((err)=>{
-            console.log('err',err)
-        })
+            .then((response) => response.json())
+            .then((task) => {
+                if (task.error) {
+                    throw task.error;
+                }
 
-       
+                this.setState({
+                    tasks: [task, ...this.state.tasks],
+                    openNewTaskModal: false
+                });
+            })
+            .catch((err) => {
+                console.log('err', err);
+            });
     };
 
 
@@ -61,7 +82,7 @@ class ToDo extends Component {
         else {
             checkedTasks.add(taskId);
         }
-        this.setState({ checkedTasks })
+        this.setState({ checkedTasks });
     };
 
     handleEdit = (task) => () => {
@@ -93,9 +114,9 @@ class ToDo extends Component {
 
     handleSave = (taskId, value) => {
 
-        const tasks = [...this.state.tasks]
+        const tasks = [...this.state.tasks];
 
-        const taskIndex = tasks.findIndex(task => task._id === taskId)
+        const taskIndex = tasks.findIndex(task => task._id === taskId);
 
         tasks[taskIndex] = {
             ...tasks[taskIndex],
@@ -108,15 +129,21 @@ class ToDo extends Component {
         });
     };
 
+    toggleNewTaskModal = ()=>{
+        this.setState({
+            openNewTaskModal: !this.state.openNewTaskModal
+        });
+    };
+
     render() {
-        const { checkedTasks, tasks, showConfirm, editTask } = this.state
+        const { checkedTasks, tasks, showConfirm, editTask } = this.state;
 
         const tasksComponents = tasks.map((task) =>
             <Col key={task._id}>
                 <Task
                     data={task}
                     onRemove={this.removeTask}
-                    onCheck={this.handleCheck(task.id)}
+                    onCheck={this.handleCheck(task._id)}
                     onEdit={this.handleEdit(task)}
                     disabled={!!checkedTasks.size}
                 />
@@ -128,10 +155,15 @@ class ToDo extends Component {
                 <Row >
 
                     <Col md={{ span: 6, offset: 3 }}>
-                        <NewTask
-                            onAdd={this.addTask}
-                            disabled={!!checkedTasks.size}
-                        />
+                    <Button
+                    variant="primary"
+                    className='m-3'
+                    disabled={checkedTasks.size}
+                    onClick={this.toggleNewTaskModal}
+                >
+                    Add New Task
+            </Button>
+
                     </Col>
 
                 </Row>
@@ -164,13 +196,18 @@ class ToDo extends Component {
                         onCancel={this.handleEdit(null)}
                     />
                 }
+
+                { this.state.openNewTaskModal &&
+                    <NewTask
+                            onAdd={this.addTask}
+                            onCancel = {this.toggleNewTaskModal}
+                        />
+                }
+
             </Container>
         );
     }
 }
 
 export default ToDo;
-
-
-
 

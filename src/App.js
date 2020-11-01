@@ -4,7 +4,7 @@ import React from 'react';
 // import Product from './demo/Components/Product';
 // import Input from './demo/Components/Input';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ToDo from './demo/Components/Task/ToDo'
+import ToDo from './demo/Components/ToDo'
 
 
 function App() {
