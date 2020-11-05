@@ -17,26 +17,26 @@ class Task extends PureComponent {
         this.props.onCheck();
     };
 
-    toggleModal = ()=>{
-        this.setState({
-            showModal: !this.state.showModal
-        });
-    }
+    // toggleModal = () => {
+    //     this.setState({
+    //         showModal: !this.state.showModal
+    //     });
+    // }
 
     render() {
         const { data, onRemove, onEdit, disabled } = this.props;
         const { checked } = this.state;
 
-       const cardClasses = ['card', styles.task];
-       if(checked){
-        cardClasses.push(styles.checked);
-       }
+        const cardClasses = ['card', styles.task];
+        if (checked) {
+            cardClasses.push(styles.checked);
+        }
 
         return (
-            <Card 
-            className={cardClasses.join(' ')}
+            <Card
+                className={cardClasses.join(' ')}
             >
-            {/* className={`card ${styles.task} ${checked ? styles.checked : ''}`} */}
+                {/* className={`card ${styles.task} ${checked ? styles.checked : ''}`} */}
                 <input
                     type='checkbox'
                     className={styles.checkbox}
@@ -45,22 +45,25 @@ class Task extends PureComponent {
                 <Card.Body>
                     <Card.Title>{data.title}</Card.Title>
                     <Card.Text>
-                        {data.description}
+                        Description:{data.description}
                     </Card.Text>
-                    <Button 
-                    className = 'm-1'
-                    variant="info"
-                    onClick={onEdit}
-                    disabled = {disabled}
+                    <Card.Text>
+                        Date:{data.date ? data.date.slice(0,10) : ''}
+                    </Card.Text>
+                    <Button
+                        className='m-1'
+                        variant="info"
+                        onClick={onEdit}
+                        disabled={disabled}
                     >
-                    <FontAwesomeIcon icon={faEdit} />
+                        <FontAwesomeIcon icon={faEdit} />
                     </Button>
 
                     <Button
-                        className = 'm-1'
+                        className='m-1'
                         variant="danger"
-                        onClick={onRemove(data.id)}
-                        disabled = {disabled}
+                        onClick={onRemove(data._id)}
+                        disabled={disabled}
                     >
                         <FontAwesomeIcon icon={faTrash} />
                     </Button>

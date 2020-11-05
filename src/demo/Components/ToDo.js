@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import NewTask from './NewTask';
+import NewTask from './NewTask/NewTask';
 import Task from './Task/Task';
 import Confirm from './Confirm';
 import Modal from './Modal';
@@ -14,7 +14,7 @@ class ToDo extends Component {
         openNewTaskModal: false
     };
 
-    componentDidMount(){
+    componentDidMount() {
         fetch('http://localhost:3001/task', {
             method: 'GET',
             headers: {
@@ -36,11 +36,7 @@ class ToDo extends Component {
             });
     }
 
-    addTask = (inputValue) => {
-
-        const data = {
-            title: inputValue
-        };
+    addTask = (data) => {
 
         fetch('http://localhost:3001/task', {
             method: 'POST',
@@ -67,11 +63,25 @@ class ToDo extends Component {
 
 
     removeTask = (taskId) => () => {
-
-        const newTasks = this.state.tasks.filter(task => task._id !== taskId);
-        this.setState({
-            tasks: newTasks
-        });
+        fetch(`http://localhost:3001/task/${taskId}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": 'application/json',
+            }
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    throw data.error;
+                }
+                const newTasks = this.state.tasks.filter(task => task._id !== taskId);
+                this.setState({
+                    tasks: newTasks
+                });
+            })
+            .catch((err) => {
+                console.log('err', err);
+            });
     };
 
     handleCheck = (taskId) => () => {
@@ -91,18 +101,38 @@ class ToDo extends Component {
 
     onRemoveSelected = () => {
         const checkedTasks = new Set(this.state.checkedTasks);
-        let tasks = [...this.state.tasks];
 
-        checkedTasks.forEach(taskId => {
-            tasks = tasks.filter(task => task._id !== taskId);
-        });
+        fetch(`http://localhost:3001/task/`, {
+            method: 'DELETE',
+            body: JSON.stringify({
+                tasks: [...checkedTasks]
+            }),
+            headers: {
+                "Content-Type": 'application/json',
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.error) {
+                 throw data.error;
+            }
+            let tasks = [...this.state.tasks];
 
-        checkedTasks.clear();
+            checkedTasks.forEach(taskId => {
+                tasks = tasks.filter(task => task._id !== taskId);
+            });
 
-        this.setState({
-            tasks,
-            checkedTasks,
-            showConfirm: false
+            checkedTasks.clear();
+
+            this.setState({
+                tasks,
+                checkedTasks,
+                showConfirm: false
+            });
+
+        })
+        .catch((err) => {
+            console.log('err', err);
         });
     };
 
@@ -129,7 +159,7 @@ class ToDo extends Component {
         });
     };
 
-    toggleNewTaskModal = ()=>{
+    toggleNewTaskModal = () => {
         this.setState({
             openNewTaskModal: !this.state.openNewTaskModal
         });
@@ -154,14 +184,14 @@ class ToDo extends Component {
             <Container fluid={true}>
                 <Row >
 
-                    <Col md={{ span: 6, offset: 3 }}>
-                    <Button
-                    variant="primary"
-                    className='m-3'
-                    disabled={checkedTasks.size}
-                    onClick={this.toggleNewTaskModal}
-                >
-                    Add New Task
+                    <Col md={{ span: 6, offset: 3 }} className="text-center">
+                        <Button
+                            variant="primary"
+                            className='m-5'
+                            disabled={checkedTasks.size}
+                            onClick={this.toggleNewTaskModal}
+                        >
+                            Add New Task
             </Button>
 
                     </Col>
@@ -175,6 +205,7 @@ class ToDo extends Component {
                 <Row className='justify-content-center'>
                     <Button
                         variant="danger"
+                        className='m-5'
                         disabled={!checkedTasks.size}
                         onClick={this.toggleConfirm}
                     >
@@ -199,9 +230,9 @@ class ToDo extends Component {
 
                 { this.state.openNewTaskModal &&
                     <NewTask
-                            onAdd={this.addTask}
-                            onCancel = {this.toggleNewTaskModal}
-                        />
+                        onAdd={this.addTask}
+                        onCancel={this.toggleNewTaskModal}
+                    />
                 }
 
             </Container>
