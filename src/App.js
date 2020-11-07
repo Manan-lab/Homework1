@@ -4,13 +4,17 @@ import React from 'react';
 // import Product from './demo/Components/Product';
 // import Input from './demo/Components/Input';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ToDo from './demo/Components/ToDo'
+import ToDo from './Components/ToDo';
+import './style.css';
+
 
 
 function App() {
 
-  return(
-    <ToDo />
+  return (
+    <div className = 'todo'>
+      <ToDo />
+    </div>
   );
 };
 
