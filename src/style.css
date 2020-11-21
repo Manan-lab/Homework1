@@ -29,3 +29,10 @@
     background-position: center;
     background-size: cover;
 }
+
+
+
+.activeLink{
+    color: red;
+    font-weight: bold;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ToDo from './Components/pages/ToDo';
 import './style.css';
-import SingleTask from './Components/pages/SingleTask';
+import SingleTask from './Components/pages/SingleTask/SingleTask';
 import NotFound from './Components/pages/NotFound';
 import About from './Components/pages/About';
 import Contact from './Components/pages/Contact'
@@ -19,7 +19,7 @@ function App() {
       <NavMenu />
       <Switch>
         <Route path='/' exact component={ToDo} />
-        <Route path='/task' exact component={SingleTask} />
+        <Route path='/task/:id' exact component={SingleTask} />
         <Route path='/about' exact component={About} />
         <Route path='/contact' exact component={Contact} />
         <Route path='/not-found' exact component={NotFound} />

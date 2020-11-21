@@ -99,6 +99,8 @@ class ToDo extends Component {
         this.setState({ editTask: task });
     };
 
+
+    
     onRemoveSelected = () => {
         const checkedTasks = new Set(this.state.checkedTasks);
 
@@ -141,6 +143,8 @@ class ToDo extends Component {
             showConfirm: !this.state.showConfirm
         });
     };
+
+
 
     handleSave = (taskId, data) => {
         fetch(`http://localhost:3001/task/${taskId}`, {
@@ -231,7 +235,6 @@ class ToDo extends Component {
                 {!!editTask &&
                     <EditTaskModal
                         data = {editTask}
-                        value={editTask}
                         onSave={this.handleSave}
                         onCancel={this.handleEdit(null)}
                     />

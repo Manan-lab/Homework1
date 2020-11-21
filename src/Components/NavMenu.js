@@ -7,13 +7,31 @@ export default function NavMenu() {
     return (
         <Navbar bg="light" variant="light">
             <Navbar.Brand>
-                <Link to='/'>Home</Link>
+                <NavLink
+                    exact
+                    activeClassName='activeLink'
+                    to='/'
+                >
+                    Home
+                </NavLink>
             </Navbar.Brand>
             <Nav className="mr-auto">
-                <Link to='/about'>About</Link>
+                <NavLink
+                    exact
+                    activeClassName='activeLink'
+                    to='/about'
+                >
+                    About
+                </NavLink>
             </Nav>
             <Nav>
-                <Link to='/contact'>Contact</Link>
+                <NavLink
+                    exact
+                    activeClassName='activeLink'
+                    to='/contact'
+                >
+                    Contact
+                </NavLink>
             </Nav>
         </Navbar>
     );

@@ -3,7 +3,7 @@ import { FormControl, Button, Modal, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import styles from './newTask.module.css'
+import styles from './newTask.module.css';
 import { faThermometerQuarter } from '@fortawesome/free-solid-svg-icons';
 
 
