@@ -143,11 +143,11 @@ class EditTaskModal extends PureComponent {
 }
 
 
-// EditTaskModal.propTypes = {
-//     // onSave: PropTypes.func.isRequired,
-//     onCancel: PropTypes.func.isRequired,
-//     data: PropTypes.object.isRequired
-// };
+EditTaskModal.propTypes = {
+    // onSave: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired
+};
 
 export default EditTaskModal;
 
