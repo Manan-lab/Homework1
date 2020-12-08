@@ -33,28 +33,30 @@ class App extends PureComponent {
 
     return (
       <>
-          <div className='app'>
-            <NavMenu />
-            <Switch>
-              <Route path='/' exact component={ToDo} />
-              <Route path='/task/:id' exact component={SingleTask} />
-              <Route path='/not-found' exact component={NotFound} />
-              <Redirect to='/not-found' />
-            </Switch>
+        <div className='app'>
+          <NavMenu />
+          <Switch>
+            <Route path='/' exact component={ToDo} />
+            <Route path='/task/:id' exact component={SingleTask} />
+            <Route path='/about' exact component={About} />
+            <Route path='/contact' exact component={Contact} />
+            <Route path='/not-found' exact component={NotFound} />
+            <Redirect to='/not-found' />
+          </Switch>
 
-            <ToastContainer
-              position="bottom-left"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-          </div>
-         { showSpinner && <Spinner /> }
+          <ToastContainer
+            position="bottom-left"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </div>
+        { showSpinner && <Spinner />}
 
       </>
     );
