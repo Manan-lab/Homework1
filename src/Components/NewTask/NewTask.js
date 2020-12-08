@@ -3,8 +3,9 @@ import { FormControl, Button, Modal, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import {connect} from 'react-redux';
+import {addTask} from '../../store/actions';
 import styles from './newTask.module.css';
-
 
 class NewTask extends PureComponent {
     state = {
@@ -16,8 +17,8 @@ class NewTask extends PureComponent {
     };
 
     validationErrors = {
-        requiredError: 'This field is required to fill!',
-        lengthError: 'The Title shoud not exceed 50 characters'
+        requiredError: 'The field is required!',
+        lengthError: 'The Title length shoud be less than 50 characters'
     };
 
     handleChange = (type, value) => {
@@ -44,7 +45,8 @@ class NewTask extends PureComponent {
     handleSave = () => {
 
         let { title, description, date } = this.state;
-        title = title.trim()
+        title = title.trim();
+
         if (!title) {
             this.setState({
                 valid: false,
@@ -67,17 +69,17 @@ class NewTask extends PureComponent {
             date: date.toISOString().slice(0, 10)
         };
 
-        this.props.onAdd(data);
-    };
+        this.props.addTask(data);
+
+    }
 
     render() {
-
         const { valid, validationType } = this.state;
 
         let errorMessage = '';
-        if (!valid) {
-            errorMessage = this.validationErrors[validationType];
-        }
+if(!valid){
+    errorMessage = this.validationErrors[validationType];
+}
 
         return (
             <Modal
@@ -93,16 +95,18 @@ class NewTask extends PureComponent {
                </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form.Label className ={styles.errorMessage}>{errorMessage}</Form.Label>
-                    <FormControl
-                        className={!valid ? styles.invalid : null}
-                        value={this.state.title}
-                        onChange={(event) => this.handleChange('title', event.target.value)}
-                        onKeyDown={this.handleKeyDown}
-                        placeholder="Title"
-                        aria-label="Title"
-                        aria-describedby="basic-addon2"
-                    />
+                    <Form.Group controlId="exampleForm.ControlInput1">
+                        <Form.Label className={"text-danger"}>{errorMessage}</Form.Label>
+                        <FormControl
+                            className={!valid ? styles.invalid : null}
+                            value={this.state.title}
+                            onChange={(event) => this.handleChange('title', event.target.value)}
+                            onKeyDown={this.handleKeyDown}
+                            placeholder="Title"
+                            aria-label="Title"
+                            aria-describedby="basic-addon2"
+                        />
+                    </Form.Group>
 
                     <Form.Control
                         as="textarea"
@@ -135,8 +139,18 @@ class NewTask extends PureComponent {
 
 
 NewTask.propTypes = {
-    onAdd: PropTypes.func.isRequired,
+    addTask:PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired
 };
 
-export default NewTask;
+const mapDispatchToProps = {
+    addTask
+};
+
+
+export default connect(null, mapDispatchToProps)(NewTask);
+
+
+
+
+
