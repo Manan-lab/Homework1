@@ -39,6 +39,9 @@ export function addTask(data) {
 }
 
 
+
+
+
 export function editTask(taskId,data ) {
 
     return (dispatch) => {
@@ -49,6 +52,58 @@ export function editTask(taskId,data ) {
 
         .then(editedTask => {
             dispatch({ type: actionTypes.EDIT_TASK_SUCCESS, editedTask });
+        })
+        .catch(err =>{
+            dispatch({ type: actionTypes.ERROR, error:err.message });
+        })
+    }
+}
+
+
+
+export function removeTask(taskId,from = 'tasks'){
+
+    return (dispatch)=>{
+        dispatch({type: actionTypes.REMOVING_TASK});
+
+        request(`http://localhost:3001/task/${taskId}`, 'DELETE')
+        .then(() => {
+            dispatch({type: actionTypes.REMOVE_TASK_SUCCESS, taskId,from});  
+        })
+        .catch(err => {
+            dispatch({type: actionTypes.ERROR, error: err.message});  
+        });
+    }
+}
+
+
+export function removeTasks(data){
+
+    return (dispatch)=>{
+        dispatch({type: actionTypes.REMOVING_TASKS});
+
+        request(`http://localhost:3001/task/`, 'PATCH', data)
+        .then(() => {
+            dispatch({type: actionTypes.REMOVE_TASKS_SUCCESS, taskIds:data.tasks});  
+        })
+        .catch(err => {
+            dispatch({type: actionTypes.ERROR, error: err.message});  
+        });
+    }
+}
+
+
+
+export function getTask(taskId) {
+
+    return (dispatch) => {
+
+        dispatch({ type: actionTypes.LOADING });
+
+        request(`http://localhost:3001/task/${taskId}`,)
+
+        .then(task => {
+            dispatch({ type: actionTypes.GET_TASK_SUCCESS, task });
         })
         .catch(err =>{
             dispatch({ type: actionTypes.ERROR, error:err.message });

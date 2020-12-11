@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import NewTask from '../NewTask/NewTask';
 import Task from '../Task/Task';
 import Confirm from '../Confirm';
 import EditTaskModal from '../EditTaskModal';
 import { connect } from 'react-redux';
-import { getTasks } from '../../store/actions';
+import { getTasks, removeTasks } from '../../store/actions';
 
 
-class ToDo extends Component {
+class ToDo extends PureComponent {
     state = {
         checkedTasks: new Set(),
         showConfirm: false,
@@ -33,30 +33,16 @@ class ToDo extends Component {
         if (!prevProps.editTaskSuccess && this.props.editTaskSuccess) {
             this.setState({ editTask: null });
         }
+
+
+        if (!prevProps.removeTasksSuccess && this.props.removeTasksSuccess) {
+            this.setState({
+                showConfirm: false,
+                checkedTasks: new Set()
+            });
+        }
     }
 
-
-    removeTask = (taskId) => () => {
-        fetch(`http://localhost:3001/task/${taskId}`, {
-            method: 'DELETE',
-            headers: {
-                "Content-Type": 'application/json',
-            }
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.error) {
-                    throw data.error;
-                }
-                const newTasks = this.state.tasks.filter(task => task._id !== taskId);
-                this.setState({
-                    tasks: newTasks
-                });
-            })
-            .catch((err) => {
-                console.log('err', err);
-            });
-    };
 
     handleCheck = (taskId) => () => {
         const checkedTasks = new Set(this.state.checkedTasks);
@@ -69,6 +55,8 @@ class ToDo extends Component {
         this.setState({ checkedTasks });
     };
 
+
+
     handleEdit = (task) => () => {
         this.setState({ editTask: task });
     };
@@ -76,40 +64,10 @@ class ToDo extends Component {
 
 
     onRemoveSelected = () => {
-        const checkedTasks = new Set(this.state.checkedTasks);
-
-        fetch(`http://localhost:3001/task/`, {
-            method: 'PATCH',
-            body: JSON.stringify({
-                tasks: [...checkedTasks]
-            }),
-            headers: {
-                "Content-Type": 'application/json',
-            }
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.error) {
-                    throw data.error;
-                }
-                let tasks = [...this.state.tasks];
-
-                checkedTasks.forEach(taskId => {
-                    tasks = tasks.filter(task => task._id !== taskId);
-                });
-
-                checkedTasks.clear();
-
-                this.setState({
-                    tasks,
-                    checkedTasks,
-                    showConfirm: false
-                });
-
-            })
-            .catch((err) => {
-                console.log('err', err);
-            });
+        const checkedTasks = [...this.state.checkedTasks];
+        this.props.removeTasks({
+             tasks: checkedTasks
+        });
     };
 
     toggleConfirm = () => {
@@ -127,20 +85,20 @@ class ToDo extends Component {
 
     render() {
         const { checkedTasks, showConfirm, editTask } = this.state;
-
         const { tasks } = this.props;
 
         const tasksComponents = tasks.map((task) =>
-            <Col key={task._id} xl={2} xs={12} sm={6} md={4} lg={3} >
+            <Col key={task._id} xs={12} sm={6} md={4} lg={3} xl={2}>
                 <Task
-                    data={task}
-                    onRemove={this.removeTask}
                     onCheck={this.handleCheck(task._id)}
                     onEdit={this.handleEdit(task)}
                     disabled={!!checkedTasks.size}
+                    data={task}
                 />
             </Col>
+
         );
+
 
         return (
 
@@ -209,13 +167,15 @@ const mapStateToProps = (state) => {
     return {
         tasks: state.tasks,
         addTaskSuccess: state.addTaskSuccess,
-        editTaskSuccess: state.editTaskSuccess
+        editTaskSuccess: state.editTaskSuccess,
+        removeTasksSuccess: state.removeTasksSuccess,
     }
 }
 
 
 const mapDispatchToProps = {
-    getTasks
+    getTasks,
+    removeTasks
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToDo);
