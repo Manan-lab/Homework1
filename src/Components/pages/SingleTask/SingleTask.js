@@ -3,7 +3,8 @@ import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import EditTaskModal from '../../EditTaskModal';
-import { getTask,removeTask } from '../../../store/actions';
+import { getTask, removeTask } from '../../../store/actions';
+import {formatDate} from '../../helpers/utils'
 import { connect } from 'react-redux'
 
 
@@ -28,14 +29,19 @@ class SingleTask extends PureComponent {
     }
 
 
-    componentDidUpdate(prevProps){
-        if(!prevProps.removeTaskSuccess && this.props.removeTaskSuccess){
+    componentDidUpdate(prevProps) {
+        if (!prevProps.removeTaskSuccess && this.props.removeTaskSuccess) {
             this.props.history.push('/')
+        }
+
+        if (!prevProps.editTaskSuccess && this.props.editTaskSuccess) {
+            this.toggleEditModal();
         }
     }
 
-    
-    handleRemove = ()=>{
+
+
+    handleRemove = () => {
         const taskId = this.props.task._id;
         this.props.removeTask(taskId, 'single');
     }
@@ -45,36 +51,6 @@ class SingleTask extends PureComponent {
             isEdit: !this.state.isEdit
         });
     }
-
-
-
-
-    // handleSave = (taskId, data) => {
-    //     fetch(`http://localhost:3001/task/${taskId}`, {
-    //         method: 'PUT',
-    //         body: JSON.stringify(data),
-    //         headers: {
-    //             "Content-Type": 'application/json',
-    //         }
-    //     })
-    //         .then((response) => response.json())
-    //         .then((editedTask) => {
-
-    //             if (editedTask.error) {
-    //                 throw editedTask.error;
-    //             }
-    //             this.setState({
-    //                 task: data,
-    //                 isEdit: true
-    //             });
-
-    //             this.toggleEditModal()
-    //         })
-    //         .catch((err) => {
-    //             console.log('err', err);
-    //         });
-    // };
-
 
 
     render() {
@@ -91,6 +67,7 @@ class SingleTask extends PureComponent {
                             <p>Title: {task.title}</p>
                             <p>Description: {task.description}</p>
                             <p>Date: {task.date.slice(0, 10)}</p>
+                            <p>Created: {formatDate(task.created_at)}</p>
 
                             <OverlayTrigger
                                 placement="top"
@@ -134,6 +111,7 @@ class SingleTask extends PureComponent {
                                 <EditTaskModal
                                     data={task}
                                     onCancel={this.toggleEditModal}
+                                    from='single'
                                 />
                             }
                         </div> :
@@ -150,12 +128,12 @@ const mapStateToProps = (state) => {
     return {
         task: state.task,
         removeTaskSuccess: state.removeTaskSuccess,
-
+        editTaskSuccess: state.editTaskSuccess
     }
 }
 
 const mapDispatchToProps = {
     getTask,
-    removeTask
+    removeTask,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SingleTask);

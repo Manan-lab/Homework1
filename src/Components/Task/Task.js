@@ -6,7 +6,8 @@ import styles from './task.module.css';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {removeTask} from '../../store/actions';
-import {connect} from 'react-redux'
+import {formatDate,shortString} from '../helpers/utils';
+import {connect} from 'react-redux';
 
 class Task extends PureComponent {
     state = {
@@ -34,7 +35,6 @@ class Task extends PureComponent {
             <Card
                 className={cardClasses.join(' ')}
             >
-                {/* className={`card ${styles.task} ${checked ? styles.checked : ''}`} */}
                 <input
                     type='checkbox'
                     className={styles.checkbox}
@@ -46,12 +46,14 @@ class Task extends PureComponent {
                         <Card.Title>{data.title}</Card.Title>
                     </Link>
                     <Card.Text>
-                        Description: {data.description}
+                        Description: {shortString(data.description,8)}
                     </Card.Text>
                     <Card.Text>
-                        Date: {data.date ? data.date.slice(0, 10) : 'none'}
+                        Date: {formatDate(data.date)}
                     </Card.Text>
-
+                    <Card.Text>
+                        Created: {formatDate(data.created_at)}
+                    </Card.Text>
                     <OverlayTrigger
                         placement="bottom"
                         overlay={

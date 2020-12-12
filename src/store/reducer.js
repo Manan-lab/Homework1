@@ -30,10 +30,31 @@ export const mainReducer = (state = defaultState, action) => {
 
     case actionTypes.LOADING: {
       return {
-        ...state,
-        loading: true
+        ...loadingState
       }
     }
+
+
+    case actionTypes.ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      }
+    }
+
+
+
+    case actionTypes.GET_TASK_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        task: action.task,
+        // successMessage:false
+      }
+    }
+
+
 
     case actionTypes.GET_TASKS_SUCCESS: {
       return {
@@ -47,13 +68,12 @@ export const mainReducer = (state = defaultState, action) => {
 
     case actionTypes.ADDING_TASK: {
       return {
-        ...state,
-        loading: true,
+        ...loadingState,
         addTaskSuccess: false,
-        successMessage: null,
-        error: null
       };
     }
+
+
 
     case actionTypes.ADD_TASK_SUCCESS: {
       return {
@@ -65,51 +85,45 @@ export const mainReducer = (state = defaultState, action) => {
       }
     }
 
-    case actionTypes.ERROR: {
+
+
+    case actionTypes.REMOVING_TASK:
       return {
-        ...state,
-        loading: false,
-        error: action.error
-      }
-    }
-
-
-
-
-    case actionTypes.EDITING_TASK: {
-      return {
-        ...state,
-        loading: true,
-        editTaskSuccess: false,
-        successMessage: null,
-        error: null
+        ...loadingState,
+        removeTaskSuccess: false,
       };
-    }
 
 
 
-    case actionTypes.EDIT_TASK_SUCCESS: {
-      const tasks = [...state.tasks];
-      const foundIndex = tasks.findIndex(task => task._id === action.editedTask._id);
-      tasks[foundIndex] = action.editedTask;
-
-      return {
+    case actionTypes.REMOVE_TASK_SUCCESS: {
+      const newState = {
         ...state,
         loading: false,
-        tasks: tasks,
-        editTaskSuccess: true,
-        successMessage: 'Task edited successfully',
+        successMessage: 'Task removed successfully!'
+      };
+
+      if (action.from === 'single') {
+        return {
+          ...newState,
+          task: null,
+          removeTaskSuccess: true
+        }
+      } else {
+        const newTask = state.tasks.filter(task => task._id !== action.taskId);
+        return {
+          ...newState,
+          tasks: newTask,
+        }
       }
     }
 
 
 
-
-    case actionTypes.REMOVING_TASKS: 
-    return {
-      ...loadingState,
-      removeTasksSuccess: false,
-    };
+    case actionTypes.REMOVING_TASKS:
+      return {
+        ...loadingState,
+        removeTasksSuccess: false,
+      };
 
 
     case actionTypes.REMOVE_TASKS_SUCCESS: {
@@ -130,48 +144,60 @@ export const mainReducer = (state = defaultState, action) => {
 
 
 
-
-    case actionTypes.GET_TASK_SUCCESS: {
+    case actionTypes.EDITING_TASK: {
       return {
+        ...loadingState,
+        editTaskSuccess: false,
+      };
+    }
+
+
+
+    case actionTypes.EDIT_TASK_SUCCESS:{
+
+      const newState={
         ...state,
-        loading: false,
-        task: action.task,
-        successMessage:false
+          loading: false,
+          editTaskSuccess: true,
+          successMessage: 'Task edited successfully',
       }
+
+      if(action.from === 'single'){
+        return {
+          ...newState,
+          task: action.editedTask,
+        }
+      }
+        else{
+          const tasks = [...state.tasks];
+          const foundIndex = tasks.findIndex(task => task._id === action.editedTask._id);
+          tasks[foundIndex] = action.editedTask;
+
+          return{
+            ...newState,
+            tasks:tasks
+          }
+        }
+
+
+      
+
+      
     }
 
 
 
-    
-    case actionTypes.REMOVING_TASK:  
-    return {
-      ...loadingState,
-      removeTaskSuccess: false,
-    };
-
-
-
-    case actionTypes.REMOVE_TASK_SUCCESS: {
-      if (action.from === 'single') {
-        return {
-          ...state,
-          loading: false,
-          task: null,
-          successMessage: 'Task removed successfully',
-          removeTaskSuccess:true
-        }
-      } else {
-        const newTask = state.tasks.filter(task => task._id !== action.taskId);
-        return {
-          ...state,
-          loading: false,
-          tasks: newTask,
-          successMessage: 'Task removed successfully'
-        }
-      }
-    }
 
 
     default: return state;
   }
 };
+
+
+
+
+
+
+
+
+

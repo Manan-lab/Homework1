@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import styles from './NewTask/newTask.module.css';
-import {connect} from 'react-redux';
-import {editTask} from '../store/actions';
+import { connect } from 'react-redux';
+import { editTask } from '../store/actions';
 
 
 
@@ -57,29 +57,30 @@ class EditTaskModal extends PureComponent {
     title = title.trim();
 
     if (!title) {
-        this.setState({
-            valid: false,
-            validationType: 'requiredError'
-        });
-        return;
+      this.setState({
+        valid: false,
+        validationType: 'requiredError'
+      });
+      return;
     };
 
-    if(title.length > 50){
-        this.setState({
-            valid: false,
-            validationType: 'lengthError'
-        });
-        return;
+    if (title.length > 50) {
+      this.setState({
+        valid: false,
+        validationType: 'lengthError'
+      });
+      return;
     }
 
     const data = {
-        title,
-        description,
-        date: date.toISOString().slice(0, 10)
+      title,
+      description,
+      date: date.toISOString().slice(0, 10)
     };
-
-    this.props.editTask( _id, data);
-}
+    
+    const {editTask, from} = this.props;
+    editTask(_id, data,from);
+  }
 
   render() {
 
@@ -147,8 +148,10 @@ class EditTaskModal extends PureComponent {
 
 
 EditTaskModal.propTypes = {
-    onCancel: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired
+  onCancel: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  from: PropTypes.oneOf(['single', 'tasks'])
+
 };
 
 const mapDispatchToProps = {
