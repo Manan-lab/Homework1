@@ -3,16 +3,21 @@ import * as actionTypes from './actionTypes';
 
 
 const apiUrl = process.env.REACT_APP_API_URL;
-console.log(process.env)
 
 
-export function getTasks() {
+export function getTasks(params={}) {
+
+    let url = `${apiUrl}/task`;
+
+    if(params.search){
+        url = url + '?search=' +params.search
+    }
 
     return (dispatch) => {
 
         dispatch({ type: actionTypes.LOADING });
 
-        request(`${apiUrl}/task`)
+        request(url)
         .then(tasks => {
             dispatch({ type: actionTypes.GET_TASKS_SUCCESS, tasks });
         })

@@ -6,6 +6,7 @@ import Confirm from '../Confirm';
 import EditTaskModal from '../EditTaskModal';
 import { connect } from 'react-redux';
 import { getTasks, removeTasks } from '../../store/actions';
+import Search from '../Search/Search'
 
 
 class ToDo extends PureComponent {
@@ -104,6 +105,7 @@ class ToDo extends PureComponent {
 
             <Container fluid={true}>
                 <Row >
+                    <Search />
 
                     <Col md={{ span: 6, offset: 3 }} className="text-center">
                         <Button
