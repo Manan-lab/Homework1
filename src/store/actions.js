@@ -8,10 +8,15 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export function getTasks(params={}) {
 
     let url = `${apiUrl}/task`;
+    let query = "?";
+    for(let key in params){
+        query+= `${key}=${params[key]}&`;
+    };
 
-    if(params.search){
-        url = url + '?search=' +params.search
+    if(query !== "?"){
+        url += query
     }
+
 
     return (dispatch) => {
 
@@ -112,6 +117,47 @@ export function getTask(taskId) {
 
         .then(task => {
             dispatch({ type: actionTypes.GET_TASK_SUCCESS, task });
+        })
+        .catch(err =>{
+            dispatch({ type: actionTypes.ERROR, error:err.message });
+        })
+    }
+}
+
+
+
+
+
+
+export function changeTaskStatus(taskId,data,from = 'tasks' ) {
+
+    return (dispatch) => {
+
+        dispatch({ type: actionTypes.CHANGING_TASK_STATUS });
+
+        request(`${apiUrl}/task/${taskId}`,'PUT',data)
+
+        .then(editedTask => {
+            dispatch({ type: actionTypes.CHANGE_TASK_STATUS_SUCCESS, editedTask, from,status:data.status });
+        })
+        .catch(err =>{
+            dispatch({ type: actionTypes.ERROR, error:err.message });
+        })
+    }
+}
+
+
+
+export function changeSingleTaskStatus(taskId,task,from = 'task' ) {
+
+    return (dispatch) => {
+
+        dispatch({ type: actionTypes.CHANGING_TASK_STATUS });
+
+        request(`${apiUrl}/task/${taskId}`,'PUT',task)
+
+        .then(editedTask => {
+            dispatch({ type: actionTypes.CHANGE_TASK_STATUS_SUCCESS, editedTask, from,status:task.status });
         })
         .catch(err =>{
             dispatch({ type: actionTypes.ERROR, error:err.message });
