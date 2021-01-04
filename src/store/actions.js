@@ -1,4 +1,4 @@
-import request from '.././Components/helpers/request';
+import request from '../helpers/request';
 import * as actionTypes from './actionTypes';
 
 

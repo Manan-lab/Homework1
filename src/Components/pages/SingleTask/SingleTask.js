@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faCheck, faHistory } from '@fortawesome/free-solid-svg-icons';
 import EditTaskModal from '../../EditTaskModal';
 import { getTask, removeTask, changeTaskStatus } from '../../../store/actions';
-import { formatDate } from '../../helpers/utils'
+import { formatDate } from '../../../../src/helpers/utils'
 import { connect } from 'react-redux'
 
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { InputGroup, FormControl, Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { getTasks } from '../../store/actions';
-import { shortString} from '../helpers/utils';
+import { shortString} from '../../helpers/utils';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
