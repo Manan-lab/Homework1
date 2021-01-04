@@ -14,8 +14,8 @@ class EditTaskModal extends PureComponent {
     super(props);
 
     this.state = {
-      ...props.data,
-      date: new Date(props.data.date),
+      ...props.task,
+      date: new Date(props.task.date),
       valid: true,
       validationType: null
     };

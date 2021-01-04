@@ -1,4 +1,6 @@
 .app {
+    /* height: 100vh; */
+    background-attachment: fixed;
     padding: 1.5%;
     background-image: url('https://image.freepik.com/free-vector/abstract-blue-background-science-technology-graphic-design_44392-180.jpg');
     background-position: center;
