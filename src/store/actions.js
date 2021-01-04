@@ -146,21 +146,3 @@ export function changeTaskStatus(taskId,data,from = 'tasks' ) {
     }
 }
 
-
-
-export function changeSingleTaskStatus(taskId,task,from = 'task' ) {
-
-    return (dispatch) => {
-
-        dispatch({ type: actionTypes.CHANGING_TASK_STATUS });
-
-        request(`${apiUrl}/task/${taskId}`,'PUT',task)
-
-        .then(editedTask => {
-            dispatch({ type: actionTypes.CHANGE_TASK_STATUS_SUCCESS, editedTask, from,status:task.status });
-        })
-        .catch(err =>{
-            dispatch({ type: actionTypes.ERROR, error:err.message });
-        })
-    }
-}
