@@ -151,7 +151,7 @@ class SingleTask extends PureComponent {
 
                             {isEdit &&
                                 <EditTaskModal
-                                    task={task}
+                                    data={task}
                                     onCancel={this.toggleEditModal}
                                     from='single'
                                 />
