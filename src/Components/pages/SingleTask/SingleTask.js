@@ -84,7 +84,7 @@ class SingleTask extends PureComponent {
                                             title='Mark as done'
                                             className='m-1'
                                             variant="success"
-                                            onClick={() => this.props.changeTaskStatus(task._id, { status: 'done' })}
+                                            onClick={() => this.props.changeTaskStatus(task._id, { status: 'done'},'single')}
                                         // disabled={disabled}
                                         >
                                             <FontAwesomeIcon icon={faCheck} />
@@ -103,7 +103,7 @@ class SingleTask extends PureComponent {
                                             title='Mark as active'
                                             className='m-1'
                                             variant="warning"
-                                            onClick={() => this.props.changeTaskStatus(task._id, { status: 'active' })}
+                                            onClick={() => this.props.changeTaskStatus(task._id, { status: 'active' },'single')}
                                         // disabled={disabled}
                                         >
                                             <FontAwesomeIcon icon={faHistory} />

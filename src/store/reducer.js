@@ -196,41 +196,38 @@ export const mainReducer = (state = defaultState, action) => {
       let message;
 
 
-      if(action.status === 'done'){
+      if (action.status === 'done') {
         message = 'You have completed the task 🎉'
-      }else{
+      } else {
         message = 'The Task is active now'
       }
-    }
 
 
-    const newState = {
-      ...state,
-      loading: false,
-      successMessage: 'message',
-    }
+
+      const newState = {
+        ...state,
+        loading: false,
+        successMessage: message,
+      }
 
 
-    if (action.from === 'single') {
-      return {
-        ...newState,
-        task: action.editedTask,
+      if (action.from === 'single') {
+        return {
+          ...newState,
+          task: action.editedTask,
+        }
+      }
+      else {
+        const tasks = [...state.tasks];
+        const foundIndex = tasks.findIndex(task => task._id === action.editedTask._id);
+        tasks[foundIndex] = action.editedTask;
+
+        return {
+          ...newState,
+          tasks: tasks
+        }
       }
     }
-    else {
-      const tasks = [...state.tasks];
-      const foundIndex = tasks.findIndex(task => task._id === action.editedTask._id);
-      tasks[foundIndex] = action.editedTask;
-
-      return {
-        ...newState,
-        tasks: tasks
-      }
-    }
-
-
-
-
 
 
     default: return state;
