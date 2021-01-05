@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit, faCheck, faHistory } from '@fortawesome/free-solid-svg-icons';
 import EditTaskModal from '../../EditTaskModal';
-import { getTask, removeTask } from '../../../store/actions';
-import {formatDate} from '../../helpers/utils'
+import { getTask, removeTask, changeTaskStatus } from '../../../store/actions';
+import { formatDate } from '../../../../src/helpers/utils'
 import { connect } from 'react-redux'
 
 
@@ -57,6 +57,7 @@ class SingleTask extends PureComponent {
         const { isEdit } = this.state;
         const { task } = this.props;
 
+
         return (
             <>
                 {
@@ -68,6 +69,47 @@ class SingleTask extends PureComponent {
                             <p>Description: {task.description}</p>
                             <p>Date: {task.date.slice(0, 10)}</p>
                             <p>Created: {formatDate(task.created_at)}</p>
+                            <p>Status : {task.status}</p>
+                            {
+                                task.status === "active" ?
+                                    <OverlayTrigger
+                                        placement="bottom"
+                                        overlay={
+                                            <Tooltip>
+                                                <strong>Mark as done</strong>
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <Button
+                                            title='Mark as done'
+                                            className='m-1'
+                                            variant="success"
+                                            onClick={() => this.props.changeTaskStatus(task._id, { status: 'done'},'single')}
+                                        // disabled={disabled}
+                                        >
+                                            <FontAwesomeIcon icon={faCheck} />
+                                        </Button>
+                                    </OverlayTrigger>
+                                    :
+                                    <OverlayTrigger
+                                        placement="bottom"
+                                        overlay={
+                                            <Tooltip>
+                                                <strong>Mark as active</strong>
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <Button
+                                            title='Mark as active'
+                                            className='m-1'
+                                            variant="warning"
+                                            onClick={() => this.props.changeTaskStatus(task._id, { status: 'active' },'single')}
+                                        // disabled={disabled}
+                                        >
+                                            <FontAwesomeIcon icon={faHistory} />
+                                        </Button>
+                                    </OverlayTrigger>
+                            }
 
                             <OverlayTrigger
                                 placement="top"
@@ -135,5 +177,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     getTask,
     removeTask,
+    changeTaskStatus
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SingleTask);

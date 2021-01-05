@@ -6,3 +6,18 @@
 .task{
     margin: 0 auto 20px;
 }
+
+.active{
+    border:2px solid #0965c7;
+    box-shadow: 4px 5px 5px  #0965c7;
+}
+
+.done{
+    border:2px solid #728fad;
+    box-shadow: 4px 5px 5px  #7397bb;
+}
+
+.checked{
+    border:2px solid red;
+    box-shadow: 4px 5px 5px red
+}

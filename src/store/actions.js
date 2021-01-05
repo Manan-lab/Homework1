@@ -1,4 +1,4 @@
-import request from '.././Components/helpers/request';
+import request from '../helpers/request';
 import * as actionTypes from './actionTypes';
 
 
@@ -8,10 +8,15 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export function getTasks(params={}) {
 
     let url = `${apiUrl}/task`;
+    let query = "?";
+    for(let key in params){
+        query+= `${key}=${params[key]}&`;
+    };
 
-    if(params.search){
-        url = url + '?search=' +params.search
+    if(query !== "?"){
+        url += query
     }
+
 
     return (dispatch) => {
 
@@ -118,3 +123,26 @@ export function getTask(taskId) {
         })
     }
 }
+
+
+
+
+
+
+export function changeTaskStatus(taskId,data,from = 'tasks' ) {
+
+    return (dispatch) => {
+
+        dispatch({ type: actionTypes.CHANGING_TASK_STATUS });
+
+        request(`${apiUrl}/task/${taskId}`,'PUT',data)
+
+        .then(editedTask => {
+            dispatch({ type: actionTypes.CHANGE_TASK_STATUS_SUCCESS, editedTask, from,status:data.status });
+        })
+        .catch(err =>{
+            dispatch({ type: actionTypes.ERROR, error:err.message });
+        })
+    }
+}
+
