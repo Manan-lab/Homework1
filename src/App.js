@@ -13,16 +13,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import Register from './Components/pages/Register/Register'
+import Login from './Components/pages/Login/Login'
 
 
 class App extends PureComponent {
 
   componentDidUpdate() {
-    const { errorMessage, successMessage } = this.props;
+    const { errorMessage, successMessage, authErrorMessage, authSuccessMessage } = this.props;
     if (errorMessage) {
       toast.error(errorMessage);
     }
     if (successMessage) {
+      toast.success(successMessage);
+    }
+    if (authErrorMessage) {
+      toast.error(errorMessage);
+    }
+    if (authSuccessMessage) {
       toast.success(successMessage);
     }
 
@@ -30,7 +37,7 @@ class App extends PureComponent {
 
   render() {
 
-    const { showSpinner } = this.props;
+    const { showSpinner,showAuthSpinner } = this.props;
 
     return (
       <>
@@ -43,6 +50,7 @@ class App extends PureComponent {
             <Route path='/contact' exact component={Contact} />
             <Route path='/not-found' exact component={NotFound} />
             <Route path='/register' exact component={Register} />
+            <Route path='/login' exact component={Login} />
             <Redirect to='/not-found' />
           </Switch>
 
@@ -58,7 +66,7 @@ class App extends PureComponent {
             pauseOnHover
           />
         </div>
-        { showSpinner && <Spinner />}
+        { (showSpinner || showAuthSpinner) && <Spinner />}
       </>
     );
   }
@@ -66,9 +74,12 @@ class App extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    errorMessage: state.error,
-    successMessage: state.successMessage,
-    showSpinner: state.loading
+    errorMessage: state.taskReducer.error,
+    successMessage: state.taskReducer.successMessage,
+    authErrorMessage: state.authReducer.error,
+    authSuccessMessage: state.authReducer.successMessage,
+    showSpinner: state.taskReducer.loading,
+    showAuthSpinner:state.authReducer.loading
   }
 }
 

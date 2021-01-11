@@ -3,7 +3,7 @@ import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faCheck, faHistory } from '@fortawesome/free-solid-svg-icons';
 import EditTaskModal from '../../EditTaskModal';
-import { getTask, removeTask, changeTaskStatus } from '../../../store/actions';
+import { getTask, removeTask, changeTaskStatus } from '../../../store/taskActions';
 import { formatDate } from '../../../../src/helpers/utils'
 import { connect } from 'react-redux'
 
@@ -168,9 +168,9 @@ class SingleTask extends PureComponent {
 
 const mapStateToProps = (state) => {
     return {
-        task: state.task,
-        removeTaskSuccess: state.removeTaskSuccess,
-        editTaskSuccess: state.editTaskSuccess
+        task: state.taskReducer.task,
+        removeTaskSuccess: state.taskReducer.removeTaskSuccess,
+        editTaskSuccess: state.taskReducer.editTaskSuccess
     }
 }
 

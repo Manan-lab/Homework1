@@ -15,7 +15,7 @@ const defaultState = {
 
 
 
-export const mainReducer = (state = defaultState, action) => {
+export const taskReducer = (state = defaultState, action) => {
 
 
   const loadingState = {
@@ -50,7 +50,6 @@ export const mainReducer = (state = defaultState, action) => {
         ...state,
         loading: false,
         task: action.task,
-        // successMessage:false
       }
     }
 
