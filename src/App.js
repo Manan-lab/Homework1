@@ -13,7 +13,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import Register from './Components/pages/Register/Register'
+<<<<<<< HEAD
 import Login from './Components/pages/Login/Login'
+=======
+>>>>>>> f68c35bf0b02b723dda15dd6df8e176c1cb56780
 
 
 class App extends PureComponent {
@@ -50,7 +53,10 @@ class App extends PureComponent {
             <Route path='/contact' exact component={Contact} />
             <Route path='/not-found' exact component={NotFound} />
             <Route path='/register' exact component={Register} />
+<<<<<<< HEAD
             <Route path='/login' exact component={Login} />
+=======
+>>>>>>> f68c35bf0b02b723dda15dd6df8e176c1cb56780
             <Redirect to='/not-found' />
           </Switch>
 
