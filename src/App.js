@@ -12,6 +12,7 @@ import Spinner from './Components/Spinner/Spinner'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { connect } from 'react-redux';
+import Register from './Components/pages/Register/Register'
 
 
 class App extends PureComponent {
@@ -41,6 +42,7 @@ class App extends PureComponent {
             <Route path='/about' exact component={About} />
             <Route path='/contact' exact component={Contact} />
             <Route path='/not-found' exact component={NotFound} />
+            <Route path='/register' exact component={Register} />
             <Redirect to='/not-found' />
           </Switch>
 

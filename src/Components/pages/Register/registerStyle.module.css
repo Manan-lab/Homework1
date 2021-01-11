@@ -1,0 +1,25 @@
+.main{
+    height:calc(100vh - 90px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.heading{
+    margin-bottom: 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.432);
+}
+
+.submitContainer{
+    text-align: center;
+}
+
+.submitContainer>button{
+    width: 50%;
+}
+
+.invalid{
+    border: 2px solid red;
+}
