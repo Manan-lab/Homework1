@@ -1,0 +1,20 @@
+.main{
+    height:calc(100vh - 90px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heading{
+    margin-bottom: 25px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.432);
+}
+
+.loginContainer{
+    text-align: center;
+}
+
+.loginContainer>button{
+    width: 50%;
+}

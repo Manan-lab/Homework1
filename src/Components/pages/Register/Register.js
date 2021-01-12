@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import styles from './registerStyle.module.css'
+import styles from './registerStyle.module.css';
+import { connect } from 'react-redux';
+import { register } from '../../../store/userActions'
 
 
 
-function Register() {
+function Register(props) {
 
 
     const [values, setValues] = useState({
+        name: '',
+        surname: '',
         email: '',
         password: '',
         confirmPassword: ''
     });
 
     const [errors, setErrors] = useState({
+        name: null,
+        surname: null,
         email: null,
         password: null,
         confirmPassword: null
@@ -21,22 +27,35 @@ function Register() {
 
 
     const handleSubmit = () => {
-        const {email,password,confirmPassword} = values;
+        const { name, surname, email, password, confirmPassword } = values;
+        let valid = true;
 
         let passwordMessage = null;
 
-        if(!confirmPassword){
-            passwordMessage = '*Password is required'
+        if (password.length < 6) {
+            passwordMessage = '*Password must be at least 6 characters long'
         }
-        else if(password !== confirmPassword){
-            passwordMessage = "*Passwords didn't match" 
+
+        if (!confirmPassword) {
+            passwordMessage = '*Password is required';
+            valid = false;
+        }
+        else if (password !== confirmPassword) {
+            passwordMessage = "*Passwords didn't match";
+            valid = false;
         }
 
         setErrors({
+            name: name ? null : '*please, add your name',
+            surname: surname ? null : '*please, add your surname',
             email: email ? null : '*Email is required',
             confirmPassword: passwordMessage,
             password: password ? null : '*Password is required'
-        })
+        });
+
+        if (valid) {
+            props.register(values);
+        }
     }
 
     const handleChange = ({ target: { name, value } }) => {
@@ -48,21 +67,71 @@ function Register() {
 
         setErrors({
             ...errors,
-            [name] : null
+            [name]: null
         })
     }
+
+
+    const {registerSuccess,history} = props;
+
+    useEffect(()=>{
+        if(registerSuccess){
+            history.push('/login');
+        }
+    }, [registerSuccess,history]);
+
 
 
     return (
         <div className={styles.main}>
             <Container>
-                <Row className = "justify-content-center">
+                <Row className="justify-content-center">
                     <Col xs={12} sm={8} md={6}>
                         <Form>
-                            <h3 className = {styles.heading}>Register</h3>
+                            <h3 className={styles.heading}>Register</h3>
+
                             <Form.Group>
                                 <Form.Control
-                                    className = {errors.email ? styles.invalid : ''}
+                                    className={errors.name ? styles.invalid : ''}
+                                    type="text"
+                                    placeholder="Enter your name"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    name="name"
+                                />
+
+                                {
+                                    <Form.Text className="text-danger"
+                                    >
+                                        {errors.name}
+                                    </Form.Text>
+                                }
+
+                            </Form.Group>
+
+                            <Form.Group>
+                                <Form.Control
+                                    className={errors.surname ? styles.invalid : ''}
+                                    type="text"
+                                    placeholder="Enter your surname"
+                                    value={values.surname}
+                                    onChange={handleChange}
+                                    name="surname"
+                                />
+
+                                {
+                                    <Form.Text className="text-danger"
+                                    >
+                                        {errors.surname}
+                                    </Form.Text>
+                                }
+
+                            </Form.Group>
+
+                            <Form.Group>
+
+                                <Form.Control
+                                    className={errors.email ? styles.invalid : ''}
                                     type="email"
                                     name="email"
                                     placeholder="Enter email"
@@ -72,15 +141,15 @@ function Register() {
                                 {
                                     <Form.Text className="text-danger"
                                     >
-                                      {errors.email}
+                                        {errors.email}
                                     </Form.Text>
                                 }
-                             
+
                             </Form.Group>
 
                             <Form.Group>
                                 <Form.Control
-                                    className = {errors.password ? styles.invalid : ''}
+                                    className={errors.password ? styles.invalid : ''}
                                     type="password"
                                     placeholder="Password"
                                     value={values.password}
@@ -91,7 +160,7 @@ function Register() {
                                 {
                                     <Form.Text className="text-danger"
                                     >
-                                      {errors.password}
+                                        {errors.password}
                                     </Form.Text>
                                 }
 
@@ -99,7 +168,7 @@ function Register() {
 
                             <Form.Group>
                                 <Form.Control
-                                    className = {errors.confirmPassword ? styles.invalid : ''}
+                                    className={errors.confirmPassword ? styles.invalid : ''}
                                     type="password"
                                     placeholder="Confirm Password"
                                     value={values.confirmPassword}
@@ -110,7 +179,7 @@ function Register() {
                                 {
                                     <Form.Text className="text-danger"
                                     >
-                                      {errors.confirmPassword}
+                                        {errors.confirmPassword}
                                     </Form.Text>
                                 }
 
@@ -133,4 +202,13 @@ function Register() {
 }
 
 
-export default Register;
+const mapStateToProps = (state) => {
+    return {
+        registerSuccess: state.authReducer.registerSuccess
+    }
+}
+const mapDispatchToProps = {
+    register
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
