@@ -27,10 +27,10 @@ class App extends PureComponent {
       toast.success(successMessage);
     }
     if (authErrorMessage) {
-      toast.error(errorMessage);
+      toast.error(authErrorMessage);
     }
     if (authSuccessMessage) {
-      toast.success(successMessage);
+      toast.success(authSuccessMessage);
     }
 
   }
