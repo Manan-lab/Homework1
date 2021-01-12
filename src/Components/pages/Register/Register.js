@@ -78,7 +78,7 @@ function Register(props) {
         if(registerSuccess){
             history.push('/login');
         }
-    }, [registerSuccess]);
+    }, [registerSuccess,history]);
 
 
 
