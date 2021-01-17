@@ -1,6 +1,6 @@
 import request from '../helpers/request';
 import * as actionTypes from './userActionTypes';
-import {saveJWT, removeJWT, getJWT,getLogoutJWT, registerRequest,loginRequest} from './../helpers/auth';
+import {saveJWT, removeJWT,getLogoutJWT, registerRequest,loginRequest} from './../helpers/auth';
 import {history} from './../helpers/history';
 
 
@@ -50,7 +50,7 @@ export function logout(){
     return (dispatch)=>{
         dispatch({type: actionTypes.AUTH_LOADING});
         
-        request(`${apiUrl}/user/sign-out`, "POST", {jwt:getLogoutJWT().jwt})
+        request(`${apiUrl}/user/sign-out`, "POST", {jwt:getLogoutJWT()})
         .then(() => {
             removeJWT();
             dispatch({type: actionTypes.LOGOUT_SUCCESS});  

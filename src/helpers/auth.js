@@ -14,7 +14,8 @@ export function removeJWT() {
 }
 
 export function getLogoutJWT() {
-    return JSON.parse(localStorage.getItem('token'))
+    return JSON.parse(localStorage.getItem('token')).jwt
+
 }
 
 
