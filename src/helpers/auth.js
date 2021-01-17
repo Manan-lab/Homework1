@@ -13,6 +13,11 @@ export function removeJWT() {
     localStorage.removeItem('token');
 }
 
+export function getLogoutJWT() {
+    return JSON.parse(localStorage.getItem('token'))
+}
+
+
 export function getJWT() {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -20,9 +25,9 @@ export function getJWT() {
         return null;
     }
 
-const parsed = JSON.parse(token);
+    const parsed = JSON.parse(token);
 
-const decoded = decode(parsed.jwt);
+    const decoded = decode(parsed.jwt);
 
     if(decoded.exp - Date.now()/1000 < 60){
       return fetch(`${apiUrl}/user/${decoded.userId}/token`, {
@@ -93,10 +98,14 @@ function request(data, type) {
             }
             return result;
         });
-    }
+}
 
 
-    function logout(){
-        store.dispatch({type: LOGOUT_SUCCESS});
-        history.push('/login'); 
-    }
+function logout(){
+    store.dispatch({type: LOGOUT_SUCCESS});
+    history.push('/login'); 
+}
+
+
+
+
