@@ -13,7 +13,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import Register from './Components/pages/Register/Register'
-import Login from './Components/pages/Login/Login'
+import Login from './Components/pages/Login/Login';
+import CostomRoute from './Components/CostomRoute'
+
+
 
 
 class App extends PureComponent {
@@ -44,13 +47,13 @@ class App extends PureComponent {
         <div className='app'>
           <NavMenu />
           <Switch>
-            <Route path='/' exact component={ToDo} />
-            <Route path='/task/:id' exact component={SingleTask} />
+            <CostomRoute type = 'private' path='/' exact component={ToDo} />
+            <CostomRoute type = 'private' path='/task/:id' exact component={SingleTask} />
             <Route path='/about' exact component={About} />
             <Route path='/contact' exact component={Contact} />
             <Route path='/not-found' exact component={NotFound} />
-            <Route path='/register' exact component={Register} />
-            <Route path='/login' exact component={Login} />
+            <CostomRoute path='/register' exact component={Register} />
+            <CostomRoute path='/login' exact component={Login} />
             <Redirect to='/not-found' />
           </Switch>
 
