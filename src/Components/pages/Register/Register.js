@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import styles from './registerStyle.module.css';
 import { connect } from 'react-redux';
@@ -105,6 +105,7 @@ function Register(props) {
                             </Form.Group>
 
                             <Form.Group>
+
                                 <Form.Control
                                     className={errors.surname ? styles.invalid : ''}
                                     type="text"
