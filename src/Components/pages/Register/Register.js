@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import styles from './registerStyle.module.css';
 import { connect } from 'react-redux';
-import { register } from '../../../store/userActions'
+import { register } from '../../../store/userActions';
+import { Link } from 'react-router-dom'
 
 
 
@@ -72,13 +73,7 @@ function Register(props) {
     }
 
 
-    const {registerSuccess,history} = props;
-
-    useEffect(()=>{
-        if(registerSuccess){
-            history.push('/login');
-        }
-    }, [registerSuccess,history]);
+    
 
 
 
@@ -192,23 +187,21 @@ function Register(props) {
                                     Register
                                 </Button>
                             </div>
-
+                                <Link
+                                  to='/login'>Already registred? Try to login
+                                </Link>
                         </Form>
                     </Col>
                 </Row>
             </Container>
+
         </div>
     )
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-        registerSuccess: state.authReducer.registerSuccess
-    }
-}
 const mapDispatchToProps = {
     register
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(null, mapDispatchToProps)(Register);
