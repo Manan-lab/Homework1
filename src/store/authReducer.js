@@ -1,11 +1,17 @@
 import * as actionTypes from './userActionTypes';
-import {checkLoginStatus} from './../helpers/auth';
+import {LOADING} from './actionTypes';
+import { checkLoginStatus } from './../helpers/auth';
 
 
 const defaultState = {
-userId: null,
-registerSuccess: false,
-isAuthenticated:checkLoginStatus()
+  registerSuccess: false,
+  loading: false,
+  successMessage: null,
+  error: null,
+  isAuthenticated: checkLoginStatus(),
+  userInfo: null,
+  addMessageSuccess: false,
+  sendFormSuccess:false
 };
 
 
@@ -14,6 +20,7 @@ export const authReducer = (state = defaultState, action) => {
     ...state,
     loading: true,
     successMessage: null,
+    addMessageSuccess: false,
     error: null,
   };
 
@@ -21,11 +28,19 @@ export const authReducer = (state = defaultState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_LOADING: return loadingState;
 
+    case LOADING: return {
+      ...state,
+      successMessage: null,
+      error: null,
+    };
+
+
     case actionTypes.AUTH_ERROR: {
       return {
         ...state,
         loading: false,
-        error: action.error
+        error: action.error,
+        sendFormSuccess:false
       };
     }
 
@@ -41,17 +56,35 @@ export const authReducer = (state = defaultState, action) => {
       return {
         ...state,
         loading: false,
-        isAuthenticated:true
+        isAuthenticated: true
       };
     }
 
 
     case actionTypes.LOGOUT_SUCCESS: {
       return {
+        ...defaultState,
+        isAuthenticated: false
+      }
+    }
+
+
+    case actionTypes.GET_USER_INFO_SUCCESS: {
+      return {
         ...state,
         loading: false,
-        isAuthenticated:false
+        userInfo: action.userInfo
       };
+    }
+
+
+    case actionTypes.ADD_MESSAGE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        sendFormSuccess:true,
+        successMessage: 'Your message is sent successfully'
+      }
     }
 
     default: return state;

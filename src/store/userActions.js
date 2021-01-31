@@ -13,7 +13,7 @@ export function register(data){
 
         registerRequest(data)
         .then(response => {
-            dispatch({type: actionTypes.REGISTER_SUCCESS, userId: response._id});  
+            dispatch({type: actionTypes.REGISTER_SUCCESS});  
             history.push('/login')
         })
         .catch(err => {
@@ -49,15 +49,69 @@ export function logout(){
 
     return (dispatch)=>{
         dispatch({type: actionTypes.AUTH_LOADING});
-        
-        request(`${apiUrl}/user/sign-out`, "POST", {jwt:getLogoutJWT()})
-        .then(() => {
-            removeJWT();
+        const jwt = getLogoutJWT();
+        if(jwt){
+            request(`${apiUrl}/user/sign-out`, "POST", {jwt})
+            .then(() => {
+                removeJWT();
+                dispatch({type: actionTypes.LOGOUT_SUCCESS});  
+                history.push('/login')
+            })
+            .catch(err => {
+                dispatch({type: actionTypes.AUTH_ERROR, error: err.message});  
+            });
+
+        }
+        else{
             dispatch({type: actionTypes.LOGOUT_SUCCESS});  
             history.push('/login')
+        }
+    }
+}
+
+
+export function getUserInfo(){
+
+    return (dispatch)=>{
+        dispatch({type: actionTypes.AUTH_LOADING});
+
+        request(`${apiUrl}/user`)
+        .then(data => {
+            dispatch({type: actionTypes.GET_USER_INFO_SUCCESS,userInfo:data});  
+            history.push('/');
         })
         .catch(err => {
             dispatch({type: actionTypes.AUTH_ERROR, error: err.message});  
         });
+    }
+}
+
+
+export function contactUs(data) {
+
+    return (dispatch) => {
+
+        dispatch({ type: actionTypes.AUTH_LOADING });
+
+        fetch(`${apiUrl}/form`,{
+            method:'POST',
+            body:JSON.stringify(data),
+            headers: {
+                "Content-Type": 'application/json',
+            }
+        })
+        .then((response) => response.json())
+        .then((result) => {
+            if (result.error) {
+                throw result.error;
+            }
+
+        })
+        .then(() => {
+            dispatch({ type: actionTypes.ADD_MESSAGE_SUCCESS });
+        })
+        .catch(err =>{
+            dispatch({ type: actionTypes.AUTH_ERROR, error:err.message });
+        })
     }
 }

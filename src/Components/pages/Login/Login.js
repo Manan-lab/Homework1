@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import styles from './loginStyles.module.css';
-import {connect} from 'react-redux';
-import {login} from '../../../store/userActions';
+import { connect } from 'react-redux';
+import { login } from '../../../store/userActions';
 import { Link } from 'react-router-dom'
 
 
@@ -57,7 +57,7 @@ function Login(props) {
             <Container>
                 <Row className="justify-content-center">
                     <Col xs={12} sm={8} md={6}>
-                        <Form>
+                        <Form >
                             <h3 className={styles.heading}>Login</h3>
 
                             <Form.Group>
@@ -106,9 +106,9 @@ function Login(props) {
                                     LogIn
                                 </Button>
                             </div>
-                                <Link
-                                  to='/register'>Don't have account yet? Register now!
-                                </Link>
+                            <Link
+                                to='/register'> Don't have account yet? Register now!
+                            </Link>
                         </Form>
                     </Col>
                 </Row>

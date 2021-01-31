@@ -1,0 +1,26 @@
+.singleTaskPage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.singleTask{
+    width: 60%;
+    margin-top: 70px ;
+    padding: 30px;
+    word-wrap:break-word;
+    font-size: 25px;
+    background-color: #0d2641a4;
+    color: rgba(255, 255, 255, 0.829);
+    border-radius: 15px;
+    text-align: center;
+}
+
+.singleTask span{
+    font-size: 35px;
+}
+
+.singleTask Button{
+    text-align: center;
+}
