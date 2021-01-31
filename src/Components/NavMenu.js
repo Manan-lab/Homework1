@@ -104,6 +104,11 @@ function NavMenu({ isAuthenticated, logout, getUserInfo, user }) {
                 >
                     Contact
                 </NavLink>
+                {isAuthenticated && <Button 
+                variant="success"
+                onClick = {props.logout}
+                >Logout</Button>
+                }
             </Nav>
             <CustomCollapse />
         </Navbar>
