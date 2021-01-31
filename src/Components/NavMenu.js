@@ -54,37 +54,37 @@ function NavMenu({ isAuthenticated, logout, getUserInfo, user }) {
         <Navbar bg="light" variant="light">
             {
                 isAuthenticated ?
-                <Navbar.Brand>
-                    <NavLink
+                    <Navbar.Brand>
+                        <NavLink
                             to='/'
                             activeClassName='activeLink'
                             exact
-                    >
+                        >
                             Home
                     </NavLink>
 
-                </Navbar.Brand> :
+                    </Navbar.Brand> :
 
-                <>
-                    <NavLink
-                        to='/register'
-                        activeClassName='activeLink'
-                        exact
-                    >
+                    <>
+                        <NavLink
+                            to='/register'
+                            activeClassName='activeLink'
+                            exact
+                        >
 
+                        </NavLink>
+
+
+                        <NavLink
+                            className="m-2"
+                            to='/login'
+                            activeClassName='activeLink'
+                            exact
+                        >
+                            Login
                     </NavLink>
 
-                       
-                    <NavLink
-                        className="m-2"
-                        to='/login'
-                        activeClassName='activeLink'
-                        exact
-                    >
-                        Login
-                    </NavLink>
-
-                </>
+                    </>
             }
 
             <Nav className="mr-auto" >
@@ -104,11 +104,6 @@ function NavMenu({ isAuthenticated, logout, getUserInfo, user }) {
                 >
                     Contact
                 </NavLink>
-                {isAuthenticated && <Button 
-                variant="success"
-                onClick = {props.logout}
-                >Logout</Button>
-                }
             </Nav>
             <CustomCollapse />
         </Navbar>
