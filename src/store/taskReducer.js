@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import {LOGOUT_SUCCESS,AUTH_LOADING} from './userActionTypes'
+import {LOGOUT_SUCCESS,AUTH_LOADING} from './userActionTypes';
 
 
 const defaultState = {
@@ -24,26 +24,24 @@ export const taskReducer = (state = defaultState, action) => {
     loading: true,
     successMessage: null,
     error: null
-  }
+  };
 
 
   switch (action.type) {
 
-    case LOGOUT_SUCCESS : return defaultState
+    case LOGOUT_SUCCESS : return defaultState;
 
-    case AUTH_LOADING: {
-      return   {
-        ...state,
-        successMessage: null,
-        error:null
-      }
-    }
+    case AUTH_LOADING: return {
+      ...state,
+      successMessage: null,
+      error: null
+    };
 
 
     case actionTypes.LOADING: {
       return {
         ...loadingState
-      }
+      };
     }
 
 
@@ -52,7 +50,7 @@ export const taskReducer = (state = defaultState, action) => {
         ...state,
         loading: false,
         error: action.error
-      }
+      };
     }
 
 
@@ -62,7 +60,7 @@ export const taskReducer = (state = defaultState, action) => {
         ...state,
         loading: false,
         task: action.task,
-      }
+      };
     }
 
 
@@ -72,7 +70,7 @@ export const taskReducer = (state = defaultState, action) => {
         ...state,
         loading: false,
         tasks: action.tasks
-      }
+      };
     }
 
 
@@ -93,7 +91,7 @@ export const taskReducer = (state = defaultState, action) => {
         tasks: [...state.tasks, action.task],
         addTaskSuccess: true,
         successMessage: 'New Task added successfully'
-      }
+      };
     }
 
 
@@ -103,7 +101,6 @@ export const taskReducer = (state = defaultState, action) => {
         ...loadingState,
         removeTaskSuccess: false,
       };
-
 
 
     case actionTypes.REMOVE_TASK_SUCCESS: {
@@ -118,13 +115,13 @@ export const taskReducer = (state = defaultState, action) => {
           ...newState,
           task: null,
           removeTaskSuccess: true
-        }
+        };
       } else {
         const newTask = state.tasks.filter(task => task._id !== action.taskId);
         return {
           ...newState,
           tasks: newTask,
-        }
+        };
       }
     }
 
@@ -239,6 +236,8 @@ export const taskReducer = (state = defaultState, action) => {
         }
       }
     }
+
+
 
 
     default: return state;

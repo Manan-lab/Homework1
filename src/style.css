@@ -1,37 +1,11 @@
 .app {
-    height: 100vh;
+    min-height: 93vh;
     background-attachment: fixed;
     padding: 1.5%;
-    background-image: url('https://image.freepik.com/free-vector/abstract-blue-background-science-technology-graphic-design_44392-180.jpg');
+    background-image: url('./assets/images/background.jpg');
     background-position: center;
     background-size: cover;
 }
-
-
-.errorPage{
-    width: 100%;
-    height: 96.5vh;
-    background-image: url('https://hostingpill.com/wp-content/uploads/2020/02/Sad.gif');
-    background-position: center;
-    background-size: cover;
-} 
-
-.contactUs{
-    width: 100%;
-    height: 96vh;
-    background-image: url('http://www.insurancelinx.co.uk/wp-content/uploads/Contactus.jpg');
-    background-position: center;
-    background-size: cover;
-}
-
-.aboutUs{
-    width: 100%;
-    height: 96vh;
-    background-image: url('https://image.shutterstock.com/image-illustration/about-us-concept-interface-world-600w-164256479.jpg');
-    background-position: center;
-    background-size: cover;
-}
-
 
 
 .activeLink{

@@ -4,19 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faCheck, faHistory } from '@fortawesome/free-solid-svg-icons';
 import EditTaskModal from '../../EditTaskModal';
 import { getTask, removeTask, changeTaskStatus } from '../../../store/taskActions';
-import { formatDate } from '../../../../src/helpers/utils'
-import { connect } from 'react-redux'
+import { formatDate } from '../../../../src/helpers/utils';
+import { connect } from 'react-redux';
+import styles from "./singleTask.module.css";
 
 
 
-const styles = {
-    height: '83vh',
-    fontSize: '30px',
-    fontWeight: '700',
-    color: 'azure',
-    padding: '20px',
-    marginTop: '35px',
-}
+
 
 class SingleTask extends PureComponent {
     state = {
@@ -62,14 +56,13 @@ class SingleTask extends PureComponent {
             <>
                 {
                     task ?
-                        <div
-                            style={styles}
-                        >
-                            <p>Title: {task.title}</p>
-                            <p>Description: {task.description}</p>
-                            <p>Date: {task.date.slice(0, 10)}</p>
-                            <p>Created: {formatDate(task.created_at)}</p>
-                            <p>Status : {task.status}</p>
+                    <div className={styles.singleTaskPage}>
+                        <div className={styles.singleTask}>
+                            <p><span>Title: </span>{task.title}</p>
+                            <p><span>Description: </span> {task.description}</p>
+                            <p><span>Date: </span> {task.date.slice(0, 10)}</p>
+                            <p><span>Created: </span> {formatDate(task.created_at)}</p>
+                            <p><span>Status: </span>{task.status}</p>
                             {
                                 task.status === "active" ?
                                     <OverlayTrigger
@@ -85,7 +78,6 @@ class SingleTask extends PureComponent {
                                             className='m-1'
                                             variant="success"
                                             onClick={() => this.props.changeTaskStatus(task._id, { status: 'done'},'single')}
-                                        // disabled={disabled}
                                         >
                                             <FontAwesomeIcon icon={faCheck} />
                                         </Button>
@@ -104,7 +96,6 @@ class SingleTask extends PureComponent {
                                             className='m-1'
                                             variant="warning"
                                             onClick={() => this.props.changeTaskStatus(task._id, { status: 'active' },'single')}
-                                        // disabled={disabled}
                                         >
                                             <FontAwesomeIcon icon={faHistory} />
                                         </Button>
@@ -156,8 +147,8 @@ class SingleTask extends PureComponent {
                                     from='single'
                                 />
                             }
-                        </div> :
-                        <div>There is no task</div>
+                        </div> 
+                    </div> : <div>There is no task</div>
                 }
             </>
 

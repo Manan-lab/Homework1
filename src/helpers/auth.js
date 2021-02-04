@@ -14,7 +14,12 @@ export function removeJWT() {
 }
 
 export function getLogoutJWT() {
-    return JSON.parse(localStorage.getItem('token')).jwt
+    
+    const token = localStorage.getItem('token');
+    if(!token){
+        return null;
+    }
+     return JSON.parse(token).jwt
 
 }
 
@@ -104,6 +109,7 @@ function request(data, type) {
 
 function logout(){
     store.dispatch({type: LOGOUT_SUCCESS});
+    removeJWT();
     history.push('/login'); 
 }
 

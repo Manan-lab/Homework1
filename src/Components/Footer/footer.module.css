@@ -1,0 +1,54 @@
+.footer{
+    padding: 2px;
+    width: 100%;
+    height: 7vh;
+    background-color: #193450cc;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer p{
+    justify-self: flex-end;
+    align-self: flex-end;
+    padding-top: 23px;
+    padding-right: 4px;
+    color: rgba(255, 255, 255, 0.486);
+}
+
+
+.links{
+    width: 80%;
+    height: 100%;
+}
+
+.link1{
+    margin: 1px;
+    width: 100%;
+    height: 50%;
+    display: flex;
+}
+
+.link2{
+    margin: 1px;
+    width: 100%;
+    height: 50%;
+    display: flex;
+}
+
+.github{
+    width: 2%;
+    margin: 2px;
+    height:auto;
+    background-image: url(../../assets/images/github-153-675523.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.linkedIn{
+    width: 2%;
+    margin: 2px;
+    height:auto;
+    background-image: url(../../assets/images/linkedinLogo.png);
+    background-size: cover;
+    background-position: center;
+}
